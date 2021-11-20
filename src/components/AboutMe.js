@@ -16,10 +16,11 @@ export const AboutMe = () => (
 const styles = {
   container: {
     width: {
-      xs: '90%',
+      xs: '100%',
       sm: '50%',
     },
-    mb: 2
+    mb: 2,
+    mt: 2
   },
   row: {
     display: 'flex',

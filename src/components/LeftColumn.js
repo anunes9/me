@@ -37,15 +37,7 @@ const styles = {
     p: 1,
     backgroundColor: BottleGreen,
     alignItems: 'center',
-    borderTopLeftRadius: '4px',
-    borderBottomLeftRadius: {
-      xs: 0,
-      sm: '4px'
-    },
-    borderTopRightRadius: {
-      xs: '4px',
-      sm: 0
-    },
+    borderRadius: '4px'
   },
   imageContainer: {
     display: 'flex',

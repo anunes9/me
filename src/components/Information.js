@@ -44,7 +44,7 @@ const styles = {
   },
   container: {
     width: {
-      xs: '90%',
+      xs: '100%',
       sm: '50%',
     },
     mt: 3,

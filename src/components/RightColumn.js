@@ -20,6 +20,7 @@ const styles = {
     flexDirection: 'column',
     flex: 1,
     flexGrow: 2,
-    p: 2
+    p: 2,
+    borderRadius: '4px'
   }
 }
