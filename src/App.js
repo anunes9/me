@@ -3,7 +3,6 @@ import { Paper, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { LeftColumn } from './components/LeftColumn'
 import { RightColumn } from './components/RightColumn'
-import { LightGrey } from './styles'
 
 const App = () => (
   <Box sx={styles.container}>
