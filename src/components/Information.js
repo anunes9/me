@@ -30,11 +30,8 @@ export const Information = () => (
 
     <Box sx={styles.item}>
       <CityIcon />
-
-      <Box>
-        <Typography sx={styles.text}>Oeiras, Lisboa</Typography>
-        <Typography sx={styles.text}>Portugal</Typography>
-      </Box>
+      
+      <Typography sx={styles.text}>Oeiras, Lisboa, Portugal</Typography>
     </Box>
   </Box>
 )
@@ -47,7 +44,7 @@ const styles = {
   },
   container: {
     width: {
-      xs: '100%',
+      xs: '90%',
       sm: '50%',
     },
     mt: 3,

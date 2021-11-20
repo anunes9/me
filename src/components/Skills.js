@@ -56,7 +56,7 @@ const Rating = ({ rate }) => (
 const styles = {
   container: {
     width: {
-      xs: '100%',
+      xs: '90%',
       sm: '50%',
     },
     mb: 2

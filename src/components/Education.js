@@ -6,19 +6,27 @@ export const Education = () => (
   <Box sx={styles.container}>
     <Typography variant='h4' sx={styles.title}>Education</Typography>
 
-    <Typography variant='h5' sx={styles.text}>Licentiate Degree in Information Technologies</Typography>
+    <Typography variant='h5' sx={styles.text}>Licentiate Degree in Information Technologies (IT)</Typography>
 
     <Box sx={styles.row}>
-      <Typography variant='h6' sx={styles.text}>Faculdade de Ciências of Lisbon University</Typography>
+      <Typography sx={styles.text}>Faculdade de Ciências of Lisbon University</Typography>
 
-      <Typography variant='subtitle1' sx={styles.text}>2015 - 2018</Typography>
+      <Typography sx={styles.text}>2015 - 2018</Typography>
     </Box>
   </Box>
 )
 
 const styles = {
   container: {
-    mb: 2
+    mb: 2,
+    ml: {
+      xs: 0,
+      sm: 2
+    },
+    mr: {
+      xs: 0,
+      sm: 2
+    }
   },
   row: {
     display: 'flex',

@@ -38,7 +38,19 @@ export const Experience = () => (
 
 const styles = {
   container: {
-    mb: 2
+    mb: 2,
+    mt: {
+      xs: 1,
+      sm: 2
+    },
+    ml: {
+      xs: 0,
+      sm: 2
+    },
+    mr: {
+      xs: 0,
+      sm: 2
+    }
   },
   row: {
     display: 'flex',

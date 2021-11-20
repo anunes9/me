@@ -8,7 +8,7 @@ export const AboutMe = () => (
 
     <Typography sx={styles.text}>
       I'm an easy person, communicative and responsible.
-      I'm my free time I like to hang out with friends, play some Padel, watch tv shows and develop some small apps.
+      I'm my free time I like to hang out with friends, play Padel, watch tv shows and develop small apps.
     </Typography>
   </Box>
 )
@@ -16,7 +16,7 @@ export const AboutMe = () => (
 const styles = {
   container: {
     width: {
-      xs: '100%',
+      xs: '90%',
       sm: '50%',
     },
     mb: 2

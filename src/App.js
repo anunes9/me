@@ -9,6 +9,7 @@ const App = () => (
   <Box sx={styles.container}>
     <Paper sx={styles.card}>
       <LeftColumn />
+
       <RightColumn />
     </Paper>
   </Box>
@@ -19,7 +20,10 @@ export default App
 const styles = {
   container: {
     backgroundColor: LightGrey,
-    p: 3
+    p: {
+      xs: 1,
+      sm: 3
+    }
   },
   card: {
     display: 'flex',
