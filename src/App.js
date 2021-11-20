@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import * as React from 'react'
+import { Paper } from '@mui/material'
+import { Box } from '@mui/system'
+import { LeftColumn } from './components/LeftColumn'
+import { RightColumn } from './components/RightColumn'
+import { LightGrey } from './styles'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => (
+  <Box sx={styles.container}>
+    <Paper sx={styles.card}>
+      <LeftColumn />
+      <RightColumn />
+    </Paper>
+  </Box>
+)
+
+export default App
+
+const styles = {
+  container: {
+    backgroundColor: LightGrey,
+    p: 3
+  },
+  card: {
+    display: 'flex',
+    flexDirection: {
+      xs: 'column', // to print change this to 'row'
+      // xs: 'row', // to print change this to 'row'
+      sm: 'row'
+    }
+  }
 }
-
-export default App;
