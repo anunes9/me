@@ -12,7 +12,7 @@ const App = () => (
       <RightColumn />
     </Paper>
 
-    <Typography sx={styles.text}>andre nunes @ 2021</Typography>
+    <Typography sx={styles.text}>andre.nunes @ 2022</Typography>
   </Box>
 )
 
@@ -29,7 +29,6 @@ const styles = {
     display: 'flex',
     flexDirection: {
       xs: 'column', // to print change this to 'row'
-      // xs: 'row', // to print change this to 'row'
       sm: 'row'
     }
   },

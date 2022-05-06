@@ -7,35 +7,15 @@ export const Skills = () => (
   <Box sx={styles.container}>
     <Typography variant='h5' sx={styles.title}>Skills</Typography>
 
-    <Box sx={styles.row}>
-      <Typography variant='subtitle1' sx={styles.title}>Project Management</Typography>
+    <Element title="Project Management" rate={6} />
 
-      <Rating rate={6} />
-    </Box>
+    <Element title="Problem Solving" rate={7} />
 
-    <Box sx={styles.row}>
-      <Typography variant='subtitle1' sx={styles.title}>Problem Solving</Typography>
+    <Element title="Code Development" rate={8} />
 
-      <Rating rate={7} />
-    </Box>
+    <Element title="Teamwork" rate={8} />
 
-    <Box sx={styles.row}>
-      <Typography variant='subtitle1' sx={styles.title}>Code Development</Typography>
-
-      <Rating rate={8} />
-    </Box>
-
-    <Box sx={styles.row}>
-      <Typography variant='subtitle1' sx={styles.title}>Teamwork</Typography>
-
-      <Rating rate={8} />
-    </Box>
-
-    <Box sx={styles.row}>
-      <Typography variant='subtitle1' sx={styles.title}>English</Typography>
-
-      <Rating rate={7} />
-    </Box>
+    <Element title="English" rate={7} />
   </Box>
 )
 
@@ -46,6 +26,14 @@ export const Skills = () => (
 //     ))}
 //   </Box>
 // )
+
+const Element = ({ title, rate }) => (
+  <Box sx={styles.row}>
+    <Typography variant='subtitle1' sx={styles.title}>{title}</Typography>
+
+    <Rating rate={rate} />
+  </Box>
+)
 
 const Rating = ({ rate }) => (
   <Box>

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Avatar, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import ProfileImage from '../profileImage.jpg'
+import ProfileImage from '../foto.jpeg'
 import { Information } from './Information'
 import { BottleGreen } from '../styles'
 import { Skills } from './Skills'
