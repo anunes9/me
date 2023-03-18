@@ -1,18 +1,22 @@
-import * as React from 'react'
-import { Typography } from '@mui/material'
-import { Box } from '@mui/system'
+import * as React from "react"
+import { Typography } from "@mui/material"
+import { Box } from "@mui/system"
 
 export const Technologies = () => {
   const technologies = [
     "React",
     "React Native",
     "Ruby on Rails",
+    "NodeJS",
+    "JavaScript",
+    "TypeScript",
     "Redux",
     "PostgreSQL",
     "HTML",
     "CSS",
-    "JavaScript",
+    "AWS",
     "Jira",
+    "Git",
     "AppCenter",
     "Project Management",
     "Agile Methodology",
@@ -23,7 +27,9 @@ export const Technologies = () => {
 
   return (
     <Box sx={styles.container}>
-      <Typography variant='h4' sx={styles.title}>Technologies and Tools</Typography>
+      <Typography variant="h4" sx={styles.title}>
+        Technologies and Tools
+      </Typography>
 
       <Typography sx={styles.text}>{technologies.join(", ")}.</Typography>
     </Box>
@@ -43,12 +49,12 @@ const styles = {
     }
   },
   title: {
-    fontFamily: 'Roboto Condensed',
+    fontFamily: "Roboto Condensed",
     // fontWeight: 'bold',
     mb: 1
   },
   text: {
-    fontFamily: 'Roboto Condensed',
+    fontFamily: "Roboto Condensed",
     pr: 1
   }
 }

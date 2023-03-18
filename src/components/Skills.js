@@ -1,11 +1,13 @@
-import * as React from 'react'
-import { Typography } from '@mui/material'
-import { Box } from '@mui/system'
+import * as React from "react"
+import { Typography } from "@mui/material"
+import { Box } from "@mui/system"
 // import Dot from '@mui/icons-material/FiberManualRecord'
 
 export const Skills = () => (
   <Box sx={styles.container}>
-    <Typography variant='h5' sx={styles.title}>Skills</Typography>
+    <Typography variant="h5" sx={styles.title}>
+      Skills
+    </Typography>
 
     <Element title="Project Management" rate={6} />
 
@@ -29,7 +31,9 @@ export const Skills = () => (
 
 const Element = ({ title, rate }) => (
   <Box sx={styles.row}>
-    <Typography variant='subtitle1' sx={styles.title}>{title}</Typography>
+    <Typography variant="subtitle1" sx={styles.title}>
+      {title}
+    </Typography>
 
     <Rating rate={rate} />
   </Box>
@@ -44,21 +48,21 @@ const Rating = ({ rate }) => (
 const styles = {
   container: {
     width: {
-      xs: '100%',
-      sm: '50%',
+      xs: "100%",
+      sm: "80%"
     },
     mb: 2,
     mt: 2
   },
   row: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column"
   },
   title: {
-    fontFamily: 'Roboto Condensed',
-    fontWeight: 'bold'
+    fontFamily: "Roboto Condensed",
+    fontWeight: "bold"
   },
   text: {
-    fontFamily: 'Roboto Condensed',
+    fontFamily: "Roboto Condensed"
   }
 }

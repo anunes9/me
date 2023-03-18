@@ -1,19 +1,23 @@
-import * as React from 'react'
-import { Avatar, Typography } from '@mui/material'
-import { Box } from '@mui/system'
-import ProfileImage from '../foto.jpeg'
-import { Information } from './Information'
-import { BottleGreen } from '../styles'
-import { Skills } from './Skills'
-import { AboutMe } from './AboutMe'
+import * as React from "react"
+import { Avatar, Typography } from "@mui/material"
+import { Box } from "@mui/system"
+import ProfileImage from "../foto.jpeg"
+import { Information } from "./Information"
+import { BottleGreen } from "../styles"
+import { Skills } from "./Skills"
+import { AboutMe } from "./AboutMe"
 
 export const LeftColumn = () => (
-  <Box sx={[styles.column, styles.leftColumn]}>
+  <Box sx={styles.column}>
     <Profile />
 
-    <Typography variant='h4' sx={styles.title}>Andre Nunes</Typography>
+    <Typography variant="h4" sx={styles.title}>
+      Andre Nunes
+    </Typography>
 
-    <Typography variant='h5' sx={styles.text}>Software Developer</Typography>
+    <Typography variant="h5" sx={styles.text}>
+      Software Developer
+    </Typography>
 
     <Information />
 
@@ -31,17 +35,17 @@ const Profile = () => (
 
 const styles = {
   column: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     flex: 1,
     p: 1,
     backgroundColor: BottleGreen,
-    alignItems: 'center',
-    borderRadius: '4px'
+    alignItems: "center",
+    borderRadius: "4px"
   },
   imageContainer: {
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center",
     p: 3
   },
   image: {
@@ -55,11 +59,11 @@ const styles = {
     }
   },
   title: {
-    fontFamily: 'Anton',
+    fontFamily: "Anton",
     mb: 1
   },
   text: {
-    fontFamily: 'Roboto Condensed',
+    fontFamily: "Roboto Condensed"
     // fontWeight: 'bold'
   }
 }
