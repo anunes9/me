@@ -1,40 +1,38 @@
-import * as React from "react"
-import { Paper, Typography } from "@mui/material"
-import { Box } from "@mui/system"
-import { LeftColumn } from "./components/LeftColumn"
-import { RightColumn } from "./components/RightColumn"
+import React, { useState } from "react"
+import { Layout } from "./mantine/Layout"
+import { MantineProvider, ColorSchemeProvider, useMantineColorScheme, ActionIcon } from "@mantine/core"
+import { IconSun, IconMoonStars } from "@tabler/icons-react"
 
-const App = () => (
-  <Box sx={styles.container}>
-    <Box sx={styles.card}>
-      <LeftColumn />
+const App = () => {
+  const [colorScheme, setColorScheme] = useState("light")
+  const toggleColorScheme = (value) => setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"))
 
-      <RightColumn />
-    </Box>
-
-    <Typography sx={styles.text}> 2023 © Andre Nunes</Typography>
-  </Box>
-)
+  return (
+    <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+      <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+        <Layout />
+      </MantineProvider>
+    </ColorSchemeProvider>
+  )
+}
 
 export default App
 
-const styles = {
-  container: {
-    p: {
-      xs: 0,
-      sm: 0
-    }
-  },
-  card: {
-    display: "flex",
-    flexDirection: {
-      xs: "row", // to print change this to 'row'
-      sm: "row"
-    }
-  },
-  text: {
-    fontFamily: "Roboto Condensed",
-    textAlign: "right",
-    m: 2
-  }
+const Demo = () => {
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme()
+  const dark = colorScheme === "dark"
+
+  return (
+    <>
+      <ActionIcon
+        variant="outline"
+        color={dark ? "yellow" : "blue"}
+        onClick={() => toggleColorScheme()}
+        title="Toggle color scheme"
+      >
+        {dark ? <IconSun size="1.1rem" /> : <IconMoonStars size="1.1rem" />}
+      </ActionIcon>
+      <p>Cenas</p>
+    </>
+  )
 }
