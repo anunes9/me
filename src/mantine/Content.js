@@ -1,38 +1,80 @@
-import { Box, Flex, Grid, Group, MediaQuery, rem, Space, Text, useMantineTheme } from "@mantine/core"
+import {
+  Box,
+  Flex,
+  Grid,
+  Group,
+  MediaQuery,
+  rem,
+  Space,
+  Text,
+  useMantineTheme,
+} from "@mantine/core"
 import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react"
 
 export const Content = () => {
   const theme = useMantineTheme()
-  const dividerColor = theme.colorScheme === "dark" ? theme.colors.gray[0] : theme.colors.gray[3]
+  const dividerColor =
+    theme.colorScheme === "dark" ? theme.colors.gray[0] : theme.colors.gray[3]
   const dividerStyle = `1px solid ${dividerColor}`
 
-  const hrefColor = theme.colorScheme === "dark" ? theme.colors.gray[0] : theme.colors.gray[6]
+  const hrefColor =
+    theme.colorScheme === "dark" ? theme.colors.gray[0] : theme.colors.gray[6]
   const hrefStyle = `1px solid ${hrefColor}`
 
   return (
     <Grid sx={{ borderBottom: dividerStyle }} mb={rem(40)} pb="lg">
       <Grid.Col xs={12} sm={9} pr="lg">
-        <Flex gap="md" justify="flex-start" align="flex-start" direction="column">
+        <Flex
+          gap="md"
+          justify="flex-start"
+          align="flex-start"
+          direction="column"
+        >
           {/* WORK EXPERIENCES */}
           <TitleHeader>WORK EXPERIENCES</TitleHeader>
 
           <CompanyHeader
             job="Full Stack Developer"
-            company="Volkswagen Digital Solutions"
-            date="March 2022 - Present"
+            company="Runtime Revolution"
+            date="June 2023 - Present"
           />
 
           <Text color="dimmed" fz="sm">
-            In March 2022 I change companies searching for a new challenge and to know different ways of working. In
-            VWDS we work in Extreme Programming. The main difference for me was the Pair Programming and Test Driven
-            Development, I was used to do tests on for the applications but with TDD we need to have another
-            perspective. Another difference was that all the infrastructure is infrastructure as code in AWS.
+            In June 2023 I returned to Runtime Revolution to work on a project
+            related with Travels and Promotions. The main focus was to upgrade
+            and improve the infrastructure and backend to create a stable core
+            app to start new features.
+          </Text>
+
+          <Space h={rem(20)} />
+
+          <CompanyHeader
+            job="Full Stack Developer"
+            company="Volkswagen Digital Solutions"
+            date="March 2022 - May 2023"
+          />
+
+          <Text color="dimmed" fz="sm">
+            In March 2022 I went searching for a new challenge and to know
+            different ways of working. In VWDS I worked in Extreme Programming,
+            Pair Programming and Test Driven Development. I was used to do tests
+            on for the applications but with Pairs and TDD we need to have
+            another perspective. Another difference was that all the
+            infrastructure is infrastructure as code in AWS.
             <br />
-            My first project was to track a vehicle production state where I work with React and Clojure.
+            My first project was to track a vehicle production state where I
+            work with React and Clojure.
             <br />
-            After that worked on a project to handle contract generation and signing done in React, NodeJS and AWS
-            Lambda. While working in these projects I had the opportunity to try out GOLANG, Elixir and create
+            After that worked on a project to handle contract generation and
+            signing done in React, NodeJS and AWS Lambda. While working in these
+            projects I had the opportunity to try out GOLANG, Elixir and create
             infrastructure from scratch in AWS.
+            <br />
+            My last project was a Prof of Concept for an idea about electric
+            vehicles. It was an interesting experience because I was able to
+            participate in all of the phases of the project, starting with
+            inception, requirement analysis, wireframing, documentation and
+            development.
           </Text>
 
           <Space h={rem(20)} />
@@ -44,23 +86,30 @@ export const Content = () => {
           />
 
           <Text color="dimmed" fz="sm">
-            Started as Mobile Developer on a project for an HealthCare company. My goal was to plan and develop a mobile
-            app that allows the users to insert and consult their healthcare records. This app was made in React Native,
-            and I was responsible for develop the app from scratch, code structure, rules, screens and components
-            organization. Implemented Facebook, Google and Apple login, Stripe payments and Apple Pay, CICD with Apple
-            Store and Google Store.
+            Started as Mobile Developer on a project for an HealthCare company.
+            My goal was to plan and develop a mobile app that allows the users
+            to insert and consult their healthcare records. This app was made in
+            React Native, and I was responsible for develop the app from
+            scratch, code structure, rules, screens and components organization.
+            Implemented Facebook, Google and Apple login, Stripe payments and
+            Apple Pay, CICD with Apple Store and Google Store.
             <br />
-            I also worked the project's website. The idea was to implement the same functionalities that the mobile app
-            provides, creating pages to allow user to insert and consult their healthcare records. This website was made
-            in React, Redux and Material Ui components framework.
+            I also worked the project's website. The idea was to implement the
+            same functionalities that the mobile app provides, creating pages to
+            allow user to insert and consult their healthcare records. This
+            website was made in React, Redux and Material Ui components
+            framework.
             <br />
-            To improve my role as a FullStack developer I learn Ruby on Rails to work on the project's API, and by the
-            end of 2019 I was working on all the products for this project. On the API I learn to work with Ruby on
-            Rails framework, PostgreSQL, ElasticSearch, Redis and Kafka. Later on this project I start doing some
-            Project Planning and Team Management.
+            To improve my role as a FullStack developer I learn Ruby on Rails to
+            work on the project's API, and by the end of 2019 I was working on
+            all the products for this project. On the API I learn to work with
+            Ruby on Rails framework, PostgreSQL, ElasticSearch, Redis and Kafka.
+            Later on this project I start doing some Project Planning and Team
+            Management.
             <br />
-            In September changed projects to work as a Mobile Developer for a Sports app in React Native. In this
-            project I assume the role of Lead Developer and Team Manager.
+            In September changed projects to work as a Mobile Developer for a
+            Sports app in React Native. In this project I assume the role of
+            Lead Developer and Team Manager.
           </Text>
 
           <Space h={rem(20)} />
@@ -76,8 +125,8 @@ export const Content = () => {
                 flexDirection: "column",
 
                 "@media (min-width: 40em)": {
-                  flexDirection: "row"
-                }
+                  flexDirection: "row",
+                },
               })}
               w="100%"
               pt={rem(20)}
@@ -170,11 +219,16 @@ export const Content = () => {
         sm={3}
         sx={() => ({
           "@media (min-width: 40em)": {
-            borderLeft: dividerStyle
-          }
+            borderLeft: dividerStyle,
+          },
         })}
       >
-        <Flex gap="md" justify="flex-start" align="flex-start" direction="column">
+        <Flex
+          gap="md"
+          justify="flex-start"
+          align="flex-start"
+          direction="column"
+        >
           <MediaQuery largerThan="sm" styles={{ display: "none" }}>
             <Space h={rem(20)} />
           </MediaQuery>
@@ -238,7 +292,7 @@ export const Content = () => {
               color="dimmed"
               fz="sm"
               sx={{
-                borderBottom: hrefStyle
+                borderBottom: hrefStyle,
               }}
             >
               anunes9.github.io/me
@@ -253,7 +307,7 @@ export const Content = () => {
               color="dimmed"
               fz="sm"
               sx={{
-                borderBottom: hrefStyle
+                borderBottom: hrefStyle,
               }}
             >
               andrenunes-work
@@ -290,7 +344,8 @@ const CompanyHeader = ({ job, company, date }) => (
 
 const TitleHeader = ({ children }) => {
   const theme = useMantineTheme()
-  const color = theme.colorScheme === "dark" ? theme.colors.gray[0] : theme.colors.teal[6]
+  const color =
+    theme.colorScheme === "dark" ? theme.colors.gray[0] : theme.colors.teal[6]
 
   return (
     <Text
