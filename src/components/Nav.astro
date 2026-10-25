@@ -1,0 +1,76 @@
+---
+import { nav } from '../data/profile';
+import ExternalLink from './ExternalLink.astro';
+import ThemeToggle from './ThemeToggle.astro';
+---
+
+<nav aria-label="Primary" class="wrap">
+  <a class="monogram" href="#main" aria-label="André Nunes, top of page">AN</a>
+  <ul class="links">
+    {nav.items.map((item) => (
+      <li><a href={item.href}>{item.label}</a></li>
+    ))}
+  </ul>
+  <div class="tools">
+    <ThemeToggle />
+    <ExternalLink href={nav.cta.href} class="btn cta">{nav.cta.label}</ExternalLink>
+  </div>
+</nav>
+
+<style>
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-top: 28px;
+    padding-bottom: 36px;
+  }
+  .monogram {
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+  }
+  .links {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+  }
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 0 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--muted);
+    transition: color 0.16s var(--ease), background-color 0.16s var(--ease);
+  }
+  .links a:hover {
+    color: var(--ink);
+    background: var(--chip);
+  }
+  .tools {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .cta {
+    min-height: 36px;
+    padding: 6px 14px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  @media (max-width: 479px) {
+    nav {
+      padding-top: 20px;
+      padding-bottom: 28px;
+    }
+    .links {
+      display: none;
+    }
+  }
+</style>

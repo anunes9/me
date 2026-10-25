@@ -23,3 +23,14 @@ test('layout: fonts self-hosted, theme defaults light without consulting the OS'
   assert.ok(!css.includes('googleapis'));
   assert.match(css, /font-family:\s*["']?Instrument Serif/);
 });
+
+test('nav, hero and strip', () => {
+  const html = readDist();
+  assert.equal(count(html, '<h1'), 1);
+  assert.match(html, /<h1[^>]*>From client idea to shipped product, <br[^>]*><em[^>]*>with AI in the loop\.<\/em><\/h1>/);
+  assert.equal(count(html, '>Start a conversation'), 2, 'nav and hero share one verb (Task 7 raises this to 3 with the band)');
+  assert.match(html, /<nav aria-label="Primary"/);
+  assert.match(html, /<img[^>]+alt="André Nunes"/);
+  assert.match(html, /<h2 class="label"[^>]*>Track record<\/h2>\s*<p class="value"[^>]*>\d+ years/);
+  assert.match(html, /<p class="value"[^>]*>4 live sites/);
+});

@@ -1,0 +1,98 @@
+---
+import { Image } from 'astro:assets';
+import { hero, meta } from '../data/profile';
+import ExternalLink from './ExternalLink.astro';
+import photo from '../assets/photo.jpg';
+const secondary = hero.cv ?? hero.secondary;
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="copy">
+    <h1 id="hero-title" class="serif">{hero.headlineLead} <br /><em>{hero.headlineAccent}</em></h1>
+    <p class="lede">{hero.lede}</p>
+    <div class="actions">
+      <ExternalLink href={hero.primary.href} class="btn btn-primary">{hero.primary.label} →</ExternalLink>
+      <a class="btn" href={secondary.href}>{secondary.label} →</a>
+    </div>
+    <p class="byline">{hero.byline}</p>
+  </div>
+  <div class="photo">
+    <Image src={photo} alt={meta.name} width={600} height={750} densities={[1, 2]} loading="eager" fetchpriority="high" />
+  </div>
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 0 0 44px;
+  }
+  h1 {
+    font-size: clamp(44px, 6.2vw, 76px);
+    line-height: 0.98;
+    margin-bottom: 22px;
+    text-wrap: balance;
+  }
+  h1 br {
+    display: none;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .lede {
+    max-width: 560px;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--muted);
+    margin-bottom: 26px;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .byline {
+    margin-top: 22px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .photo {
+    width: 120px;
+    order: -1;
+  }
+  .photo img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    height: auto;
+    object-fit: cover;
+    object-position: 50% 30%;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+  }
+  @media (min-width: 480px) {
+    .photo {
+      width: 200px;
+    }
+  }
+  @media (min-width: 860px) {
+    .hero {
+      grid-template-columns: 1.25fr 0.75fr;
+      align-items: start;
+      gap: 40px;
+      padding: 8px 0 44px;
+    }
+    h1 br {
+      display: inline;
+    }
+    h1 em {
+      white-space: nowrap;
+    }
+    .photo {
+      order: 0;
+      width: min(100%, 300px);
+      justify-self: end;
+    }
+  }
+</style>

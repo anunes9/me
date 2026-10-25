@@ -1,0 +1,69 @@
+---
+import { strip } from '../data/profile';
+const facts = strip(new Date());
+---
+
+<section class="strip" aria-label="At a glance">
+  {facts.map((fact) => (
+    <div class="cell">
+      <h2 class="label">{fact.key}</h2>
+      <p class="value">{fact.value}</p>
+      <p class="support">{fact.support}</p>
+    </div>
+  ))}
+</section>
+
+<style>
+  .strip {
+    display: grid;
+    grid-template-columns: 1fr;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--card);
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  .cell {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--line);
+    min-width: 0;
+  }
+  .cell:last-child {
+    border-bottom: 0;
+  }
+  .label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .label::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+  .value {
+    font-size: 15px;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+  .support {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  @media (min-width: 860px) {
+    .strip {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .cell {
+      border-bottom: 0;
+      border-right: 1px solid var(--line);
+    }
+    .cell:last-child {
+      border-right: 0;
+    }
+  }
+</style>

@@ -1,0 +1,11 @@
+---
+/** Anchor that opens in a new tab with the safety attributes and a hidden hint. */
+interface Props {
+  href: string;
+  class?: string;
+  [key: string]: unknown;
+}
+const { href, class: className, ...rest } = Astro.props;
+---
+
+<a href={href} class={className} target="_blank" rel="noopener noreferrer" {...rest}><slot /><span class="visually-hidden"> (opens in new tab)</span></a>

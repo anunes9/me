@@ -1,8 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Strip from '../components/Strip.astro';
 import { meta } from '../data/profile';
 ---
 
 <Base title={meta.title} description={meta.description}>
-  <h1>André Nunes</h1>
+  <Nav slot="nav" />
+  <div class="wrap">
+    <Hero />
+    <Strip />
+  </div>
 </Base>
