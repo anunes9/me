@@ -19,3 +19,13 @@ test('print stylesheet hides chrome and reveals plain addresses', () => {
   assert.match(print, /\.print-only\s*\{\s*display:\s*inline/);
   assert.match(print, /nav[\s\S]*display:\s*none/);
 });
+
+test('above-the-fold fonts are preloaded and the monogram name contains its visible text', () => {
+  const html = readDist();
+  const preloads = [...html.matchAll(/<link rel="preload"[^>]*as="font"[^>]*href="([^"]+)"/g)].map(m => m[1]);
+  assert.ok(preloads.some(h => /instrument-serif-latin-400-normal/.test(h)), 'serif regular preloaded');
+  assert.ok(preloads.some(h => /instrument-serif-latin-400-italic/.test(h)), 'serif italic preloaded');
+  assert.ok(preloads.every(h => h.startsWith('/me/')), 'preloads respect the base path');
+  assert.ok(!/class="monogram"[^>]*aria-label=/.test(html), 'monogram must not override its visible text with aria-label');
+  assert.match(html, /class="monogram"[^>]*>AN<span class="visually-hidden"[^>]*>/);
+});

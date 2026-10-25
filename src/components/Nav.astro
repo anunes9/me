@@ -5,7 +5,7 @@ import ThemeToggle from './ThemeToggle.astro';
 ---
 
 <nav aria-label="Primary" class="wrap">
-  <a class="monogram" href="#main" aria-label="André Nunes, top of page">AN</a>
+  <a class="monogram" href="#main">AN<span class="visually-hidden">, André Nunes, top of page</span></a>
   <ul class="links">
     {nav.items.map((item) => (
       <li><a href={item.href}>{item.label}</a></li>
