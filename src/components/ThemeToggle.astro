@@ -1,0 +1,80 @@
+---
+---
+<button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="false" aria-label="Dark theme" title="Dark theme">
+  <svg class="icon-moon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <path d="M13.5 10.2A6 6 0 0 1 5.8 2.5a6 6 0 1 0 7.7 7.7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+  </svg>
+  <svg class="icon-sun" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.5" />
+    <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6 13 13M3 13l1.4-1.4M11.6 4.4 13 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+  </svg>
+  <span class="theme-toggle-text">Dark</span>
+</button>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.16s var(--ease), background-color 0.16s var(--ease);
+  }
+  .theme-toggle:hover {
+    color: var(--ink);
+  }
+  .icon-sun {
+    display: none;
+  }
+  :global([data-theme='dark']) .icon-sun {
+    display: block;
+  }
+  :global([data-theme='dark']) .icon-moon {
+    display: none;
+  }
+  @media (max-width: 479px) {
+    .theme-toggle-text {
+      display: none;
+    }
+    .theme-toggle {
+      width: 36px;
+      padding: 0;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  const button = document.getElementById('theme-toggle');
+  const meta = document.getElementById('color-scheme');
+
+  function apply(theme: 'light' | 'dark') {
+    document.documentElement.dataset.theme = theme;
+    meta?.setAttribute('content', theme);
+    const dark = theme === 'dark';
+    button?.setAttribute('aria-pressed', String(dark));
+    button?.setAttribute('aria-label', dark ? 'Light theme' : 'Dark theme');
+    button?.setAttribute('title', dark ? 'Light theme' : 'Dark theme');
+    const text = button?.querySelector('.theme-toggle-text');
+    if (text) text.textContent = dark ? 'Light' : 'Dark';
+  }
+
+  apply(document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
+
+  button?.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    apply(next);
+    try {
+      localStorage.setItem('theme', next);
+    } catch {
+      /* storage unavailable: the choice lasts for this page only */
+    }
+  });
+</script>

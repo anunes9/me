@@ -1,16 +1,8 @@
 ---
-import { withBase } from '../lib/url';
+import Base from '../layouts/Base.astro';
+import { meta } from '../data/profile';
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>André Nunes — Team Leader, AI-first projects</title>
-    <link rel="icon" href={withBase('favicon.ico')} />
-    <link rel="manifest" href={withBase('manifest.json')} />
-  </head>
-  <body>
-    <main><h1>André Nunes</h1></main>
-  </body>
-</html>
+
+<Base title={meta.title} description={meta.description}>
+  <h1>André Nunes</h1>
+</Base>
