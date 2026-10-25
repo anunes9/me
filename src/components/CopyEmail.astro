@@ -1,0 +1,86 @@
+---
+import { connect, links } from '../data/profile';
+---
+
+<li class="copy-row">
+  <button type="button" class="copy" data-email={links.email} data-copied={connect.copiedLabel} data-idle={connect.copyLabel}>
+    Email <span class="copy-label">{connect.copyLabel}</span>
+  </button>
+  <span class="print-only">{links.email}</span>
+  <span class="visually-hidden" aria-live="polite" id="copy-status"></span>
+</li>
+
+<style>
+  .copy {
+    all: unset;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 40px;
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: color 0.16s var(--ease);
+  }
+  .copy:hover .copy-label {
+    color: var(--ink);
+  }
+  .copy:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  .copy-label {
+    font-size: 12px;
+    color: var(--muted);
+    overflow-wrap: anywhere;
+    text-align: right;
+    transition: color 0.16s var(--ease);
+  }
+  .copy.done .copy-label {
+    color: var(--accent);
+  }
+  @media print {
+    .copy {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('.copy');
+  const status = document.getElementById('copy-status');
+  if (button) {
+    const label = button.querySelector<HTMLElement>('.copy-label');
+    const email = button.dataset.email ?? '';
+    const idle = button.dataset.idle ?? 'copy address';
+    const copied = button.dataset.copied ?? 'copied';
+    let timer: number | undefined;
+
+    const showAddress = () => {
+      if (label) label.textContent = email;
+      if (status) status.textContent = `Email address: ${email}`;
+    };
+
+    button.addEventListener('click', async () => {
+      if (!navigator.clipboard?.writeText) return showAddress();
+      try {
+        await navigator.clipboard.writeText(email);
+        button.classList.add('done');
+        if (label) label.textContent = copied;
+        if (status) status.textContent = 'Email address copied';
+        window.clearTimeout(timer);
+        timer = window.setTimeout(() => {
+          button.classList.remove('done');
+          if (label) label.textContent = idle;
+        }, 1800);
+      } catch {
+        showAddress();
+      }
+    });
+  }
+</script>

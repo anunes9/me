@@ -1,0 +1,21 @@
+---
+import { toolbox } from '../data/profile';
+---
+
+<article class="card span-5">
+  <h2 class="label">Toolbox</h2>
+  <h3>{toolbox.title}</h3>
+  <ul class="chips">
+    {toolbox.highlighted.map((name) => <li class="chip chip-hi">{name}</li>)}
+    {toolbox.plain.map((name) => <li class="chip">{name}</li>)}
+  </ul>
+</article>
+
+<style>
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+</style>

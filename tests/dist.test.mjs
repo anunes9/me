@@ -43,3 +43,17 @@ test('AI-first work, about and based in', () => {
   assert.match(html, /Europe\/Lisbon/);
   assert.match(html, /Off the clock: padel, music, cars, and long walks with the dog\./);
 });
+
+test('experience, toolbox and connect', () => {
+  const html = readDist();
+  assert.equal((html.match(/<li class="chip chip-hi"[^>]*>/g) || []).length, 5);
+  assert.equal((html.match(/<li class="chip"[^>]*>/g) || []).length, 11);
+  assert.match(html, /<p class="org"[^>]*>Runtime Revolution · Full Stack Developer until 2025<\/p>/);
+  assert.match(html, /Bachelor(&#39;|')s degree in Information Technologies/);
+  assert.ok(!/Full CV/.test(html));
+  assert.match(html, /<button type="button" class="copy"[^>]*data-email="andrenunes\.work@gmail\.com"/);
+  assert.match(html, /aria-live="polite"/);
+  assert.match(html, /rel="noopener noreferrer"/);
+  assert.match(html, /\(opens in new tab\)/);
+  assert.equal((html.match(/class="print-only"/g) || []).length, 3);
+});

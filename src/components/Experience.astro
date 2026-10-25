@@ -1,0 +1,68 @@
+---
+import { experience } from '../data/profile';
+---
+
+<article id="experience" class="card span-7">
+  <h2 class="label">Experience</h2>
+  <ol class="timeline">
+    {experience.map((entry) => (
+      <li>
+        <p class="period">{entry.period}</p>
+        <div>
+          <p class="role">{entry.role}</p>
+          <p class="org">{entry.org}{entry.sub ? ` · ${entry.sub}` : ''}</p>
+          {entry.note && <p class="note">{entry.note}</p>}
+        </div>
+      </li>
+    ))}
+  </ol>
+</article>
+
+<style>
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    margin-top: 4px;
+  }
+  li {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4px 14px;
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+  }
+  li:first-child {
+    border-top: 0;
+    padding-top: 2px;
+  }
+  .period {
+    font-size: 12px;
+    color: var(--muted);
+    padding-top: 3px;
+    font-variant-numeric: tabular-nums;
+  }
+  .role {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .org {
+    font-size: 13px;
+  }
+  .note {
+    font-size: 13px;
+    line-height: 1.5;
+    margin-top: 4px;
+    max-width: 52ch;
+  }
+  @media (min-width: 480px) {
+    li {
+      grid-template-columns: 110px 1fr;
+    }
+  }
+  @media (min-width: 860px) {
+    article {
+      grid-row: span 2;
+    }
+  }
+</style>
