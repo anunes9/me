@@ -2,7 +2,7 @@
 
 Date: 2026-10-25
 Owner: André Nunes
-Site: https://anunes9.github.io/me (repo `anunes9/me`, source on `master`, published from the `gh-pages` branch)
+Site: https://anunes9.github.io/me (repo `anunes9/me`, source on `master`, published from the `gh-pages` branch, which stays the repository's default branch by the owner's choice)
 
 Visual reference: `docs/superpowers/specs/2026-10-25-cv-site-redesign-sketch/index.html` (the approved brainstorm mockup, final revision; open it in a browser). The sketch is a throwaway and must not be copied as code; it is the picture of what the result should look like. Where this document and the sketch disagree, this document wins.
 
@@ -40,9 +40,10 @@ Anti-goals (what would make this a failure even if it works)
 
 ## 3. Constraints
 
-- Hosting: GitHub Pages, project site, served under the `/me/` base path. Must set the Astro `site` to `https://anunes9.github.io` and `base` to `/me`.
+- Hosting: GitHub Pages, project site, served under the `/me/` base path. Must set the Astro `site` to `https://anunes9.github.io` and `base` to `/me`. No custom domain is planned; the code stays base-agnostic so a later domain is a `base` change plus a `CNAME` file.
 - Deploy: `npm run deploy` builds and pushes the output directory to the `gh-pages` branch using the `gh-pages` package already in `devDependencies`, replacing the CRA `build` directory with Astro's `dist`.
-- Node 24 on the owner's machine; `yarn` is not installed, use `npm`. Remove `yarn.lock`.
+- Node 24 on the owner's machine; `yarn` is not installed, use `npm`. Remove `yarn.lock`. Pin the runtime: `.tool-versions` with `nodejs 24.6.0` and `"engines": { "node": ">=22.23.4" }` in `package.json`.
+- Language: English only; no Portuguese version.
 - Keep the existing favicon files in `public/`. `manifest.json` currently uses absolute `/android-chrome-*.png` paths that break under `/me/`; fix its paths and link it from `<head>`. Add an empty `public/.nojekyll` so GitHub Pages serves Astro's `_astro/` directory.
 - Internal URLs (anchors excepted) are built from `import.meta.env.BASE_URL`, never hard-coded with `/me/`.
 - The owner's photo is `IMG_9855.heic` converted to JPEG; the converted file is at `docs/superpowers/specs/2026-10-25-cv-site-redesign-sketch/photo.jpg` and must be moved into `src/assets/`.
@@ -51,19 +52,19 @@ Anti-goals (what would make this a failure even if it works)
 ## 4. How it gets made (decided)
 
 - Astro (current stable), static output, one route `/`. Plain CSS with custom properties; no Tailwind, no Mantine, no React. Islands are not needed; the two interactive pieces (theme toggle, copy-email button) are small inline scripts.
-- Fonts self-hosted through Fontsource packages: Inter (variable) for body and UI, Instrument Serif (regular and italic) for display. JetBrains Mono is dropped; the clock uses Inter with tabular numerals. No Google Fonts requests at runtime.
-- Content model: a single typed data module, e.g. `src/data/profile.ts`, exporting the hero, strip facts, AI-first items, about, location, experience, toolbox, projects, links and band copy. Components render from it; no copy is hard-coded in components.
+- Fonts self-hosted through Fontsource packages: static Inter 400, 500 and 600 (`@fontsource/inter`, not the variable build, to keep the Latin download near 75KB) for body and UI, Instrument Serif regular and italic for display. JetBrains Mono is dropped; the clock uses Inter with tabular numerals. No Google Fonts requests at runtime.
+- Content model: a single typed data module, e.g. `src/data/profile.ts`, exporting the hero, strip facts, AI-first items, about, location, experience, toolbox, projects, links and band copy. Components render from it; no copy is hard-coded in components. Two strip facts are derived at build time rather than typed: the years figure from `careerStart: 2018` (`currentYear - careerStart`), and the live-sites count from `projects.items.length`.
 - Images through Astro's `<Image>` from `src/assets/`, with explicit width/height and `alt`.
 - Project layout, component names and file structure are the builder's call.
 
 ## 5. Page structure (single page, in order)
 
-1. Nav: monogram "AN" at left; centre links Work, Experience, About (anchors to sections); right button "Start a conversation" (LinkedIn). Below 480px the centre links collapse and only the monogram and the button remain.
+1. Nav: text monogram "AN" (Inter 600, slight letter spacing; the old `logo.svg` files are deleted) at left; centre links Work (`#work`, the AI-first card; Side projects has no nav item), Experience, About; theme toggle; right button "Start a conversation" (LinkedIn profile URL, no message-compose deep link). Below 480px the centre links collapse; the monogram, an icon-only toggle with an accessible label, and the button remain. The nav is not sticky.
 2. Hero: two columns at ≥860px (headline column 1.25fr, photo column .75fr, top-aligned); stacked below.
 3. Quick strip: three cells of facts.
 4. AI-first work: full-width card with four items.
 5. About (7/12) beside Based in (5/12).
-6. Experience (7/12, three entries plus education line and "Full CV" link) beside Toolbox and Connect stacked (5/12 each).
+6. Experience (7/12, three entries plus education line) beside Toolbox and Connect stacked (5/12 each).
 7. Side projects: full-width card with four image cards.
 8. Closing band: inverted colours, one headline, one line, one button.
 9. Footer: copyright and "Built with care in Lisbon".
@@ -96,12 +97,12 @@ Type
 
 Colour use
 
-- Accent is used for: the italic phrase in the h1, the strip key markers, highlighted toolbox chips (as tint), the "Full CV" link, the copy button's "copied" state, focus rings, and the italic word in the band (keep it coloured in both themes; do not fall back to opacity).
+- Accent is used for: the italic phrase in the h1, the strip key markers, highlighted toolbox chips (as tint), the copy button's "copied" state, focus rings, and the italic word in the band (keep it coloured in both themes; do not fall back to opacity).
 
 States and browser surfaces
 
 - Buttons: hover lifts 1px with a slightly stronger shadow; primary button darkens 8% on hover.
-- Strip cells, Connect links and project cards have a hover state (background shift or 2px lift).
+- Connect links and project cards have a hover state (background shift or 2px lift). Strip cells are not interactive and have none.
 - Visible `:focus-visible` ring: 2px accent, 3px offset, on every link and button.
 - Selection colour tinted from the accent. Underline offset set on inline links.
 - Theme: light by default; a toggle in the nav switches to dark, stored in `localStorage`, applied before first paint by an inline script in `<head>` to avoid a flash. `color-scheme` meta set accordingly.
@@ -111,6 +112,10 @@ Responsive
 - Breakpoints: 480px (nav collapses, strip stacks to one column, timeline stacks date above role, hero photo becomes a 120px-wide portrait above the headline), 860px (hero becomes two columns, grid pairs apply), 1024px (full 12-column layout). Project cards: 4-up ≥1024px, 2-up below, 1-up below 480px. AI-first items: 4-up ≥1024px, 2-up below 1024px, 1-up below 600px.
 - No horizontal overflow at 375px. Long strings (email, URLs) wrap with `overflow-wrap: anywhere`.
 - Tap targets at least 40px tall on phones.
+
+Print
+
+- A print stylesheet: one column, light tokens, no shadows; nav, theme toggle, buttons and the closing band hidden; in Connect the handles and the copy button are replaced by plain text `linkedin.com/in/andrenunes-work`, `github.com/anunes9` and the email address. No custom 404 page.
 
 Accessibility
 
@@ -130,14 +135,14 @@ Hero
 
 - h1: `From client idea to shipped product,` `<br>` `<em>with AI in the loop.</em>`
 - Lede: "I sit between clients and engineers at Runtime Revolution: I help clients decide what to build, help my teams work out how, and still ship code myself."
-- Byline under the buttons: "Team Leader at Runtime Revolution · Lisbon, UTC+0"
+- Byline under the buttons: "Team Leader at Runtime Revolution · Lisbon, Portugal"
 - Photo: `photo.jpg`, 4:5 portrait, 300px wide at desktop, `object-position: 50% 30%`, 20px radius. `alt="André Nunes"`.
 
 Quick strip (key / value / support)
 
-- Experience / **8 years** / Shipping web and mobile since 2018
+- Track record / **{years} years** (computed from 2018) / Shipping web and mobile since 2018
 - Industries / **Healthcare · Automotive · Travel** / From medical records to vehicle production
-- On the side / **4 live sites** / Built for real small businesses
+- On the side / **{n} live sites** (computed from the projects list) / Built for real small businesses
 
 AI-first work (`#work`)
 
@@ -158,7 +163,7 @@ About (`#about`)
 Based in
 
 - Title: "Oeiras, Lisbon"
-- Body: "WET / UTC+0. Overlaps nicely with London and most of Europe, mornings with the US east coast."
+- Body: "Same time zone as London, all year. Overlaps nicely with most of Europe, mornings with the US east coast."
 - Clock (Lisbon time) with the label "Lisbon time".
 
 Experience (`#experience`)
@@ -179,7 +184,7 @@ Connect
 
 - LinkedIn · andrenunes-work → `https://www.linkedin.com/in/andrenunes-work/`
 - GitHub · anunes9 → `https://github.com/anunes9`
-- Email · copy address (button; copies `andrenunes.work@gmail.com`)
+- Email · copy address (button; copies `andrenunes.work@gmail.com`; the address sits in plain form in the markup, no obfuscation)
 
 Side projects (`#projects`)
 
@@ -199,19 +204,18 @@ Closing band
 
 Footer: "© 2026 André Nunes" · "Built with care in Lisbon". The year is computed at build time.
 
-Head: `<title>André Nunes — Team Leader, AI-first projects</title>`; meta description "Team Leader at Runtime Revolution in Lisbon. From client idea to shipped product, with AI in the loop."; Open Graph title, description and image; existing favicons; `<link rel="manifest">`.
+Head: `<title>André Nunes — Team Leader, AI-first projects</title>`; meta description "Team Leader at Runtime Revolution in Lisbon. From client idea to shipped product, with AI in the loop."; Open Graph title, description, `og:type` website, `og:url` and image; `twitter:card` `summary_large_image`; existing favicons; `<link rel="manifest">`.
 
 Open Graph image: a static `public/og.jpg`, 1200×630, cropped from the photo (face right of centre, page background colour `#f6f5f2` filling the rest, or a plain centre crop if that is simpler), referenced by absolute URL `https://anunes9.github.io/me/og.jpg`. Generated once with `sips` or an image tool and committed; not produced by the build.
 
 ## 8. Removed from the current site, on purpose
 
-The `src/resume-pdf` folder and all links to a CV, the phone number (not shown anywhere), the long personal bio paragraph, the three-column skills list with soft skills, the Languages and Interests sidebar (interests survive as one line in About; languages are dropped from the page and remain in the CV), the Mantine dark/light `ColorSchemeProvider`, the CRA service worker and web-vitals reporting.
+The `src/resume-pdf` folder and all links to a CV, `src/assets/logo.svg` and `logo-black.svg`, the phone number (not shown anywhere), the long personal bio paragraph, the three-column skills list with soft skills, the Languages and Interests sidebar (interests survive as one line in About; languages are dropped from the page and remain in the CV), the Mantine dark/light `ColorSchemeProvider`, the CRA service worker and web-vitals reporting.
 
 ## 9. Left to the builder
 
 - Component and file naming, CSS organisation (one global stylesheet or per-component scoped styles), and whether 860–1024px pairs become 6/6.
 - Exact hover and transition timings (keep them under 200ms, ease-out).
-- Whether the nav is sticky (if so, it must not cover anchors; use `scroll-margin-top`).
 - Anything this document is silent on (nav button style, strip cell layout, band layout, timeline visuals) follows the sketch, re-implemented rather than copied. The sketch is only wrong where §6 overrides it: dark cards are lighter, there is no monospace face, small labels are 11px, accent chips are ink on tint, decorations are gone.
 - Theme: light is the default for everyone, including visitors whose OS prefers dark; `prefers-color-scheme` is not consulted. The toggle updates the `color-scheme` meta as well as the `data-theme` attribute.
 - How the theme toggle looks (a small labelled button is enough; no icon library is required, an inline SVG sun/moon pair is fine).
@@ -219,7 +223,13 @@ The `src/resume-pdf` folder and all links to a CV, the phone number (not shown a
 - Removing CRA leftovers: `react-scripts`, `src/mantine`, `src/App.js`, `src/index.js`, `reportWebVitals.js`, `build/`, `yarn.lock`, the CRA `public/index.html`, and `src/resume-pdf`. Deploying replaces the old CRA output on `gh-pages` entirely; that is expected.
 - Repo hygiene: `docs/` is committed; `.impeccable/` and `.superpowers/` are ignored; `.claude/launch.json` is updated to start Astro (`npm run dev`, port 4321) so the app's preview works.
 
-## 10. Done looks like
+## 10. Accepted trade-offs
+
+- A reader can infer the travel client from the Experience note and two of the AI-first items; no client is named, and that is acceptable.
+- The email address is scrapeable; it was already public on the previous site.
+- `gh-pages` remains the default branch; visitors to the repository see build output first.
+
+## 11. Done looks like
 
 - `npm run build` produces `dist/` with one HTML page, self-hosted fonts, optimised images, and no JavaScript other than the theme and copy scripts.
 - `npm run dev` serves the page locally; the page matches the sketch at 1280px, holds together at 768px, and has no horizontal overflow at 375px.

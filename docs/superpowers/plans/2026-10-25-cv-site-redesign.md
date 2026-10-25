@@ -6,14 +6,14 @@
 
 **Architecture:** One Astro route renders a dozen small `.astro` components from a single typed data module (`src/data/profile.ts`). Plain CSS with custom properties in one global stylesheet plus component-scoped styles; fonts self-hosted via Fontsource; images through `astro:assets`. Three tiny scripts (theme init/toggle, Lisbon clock, copy email) are the only JavaScript. Verification is `npm run build` followed by `node --test` assertions over `dist/index.html`, plus browser checks at 375/768/1280.
 
-**Tech Stack:** Astro 7.4.2, `@fontsource-variable/inter` 5.3.0, `@fontsource/instrument-serif` 5.3.0, `gh-pages` 6.3.0, Node 24 (built-in test runner and type stripping), npm.
+**Tech Stack:** Astro 7.4.2, `@fontsource/inter` 5.x (static 400/500/600), `@fontsource/instrument-serif` 5.3.0, `gh-pages` 6.3.0, Node 24 (built-in test runner and type stripping), npm.
 
 **Spec:** `docs/superpowers/specs/2026-10-25-cv-site-redesign-design.md` (visual reference: `docs/superpowers/specs/2026-10-25-cv-site-redesign-sketch/index.html`)
 
 ## Global Constraints
 
 - Astro config: `site: 'https://anunes9.github.io'`, `base: '/me'`, static output. Internal URLs other than `#anchors` come from `import.meta.env.BASE_URL` via `withBase()`; never hard-code `/me/`.
-- No runtime requests to Google Fonts or any third party. Fonts: Inter (variable) for UI/body, Instrument Serif 400 + 400 italic for display. No monospace face.
+- No runtime requests to Google Fonts or any third party. Fonts: static Inter 400/500/600 for UI/body, Instrument Serif 400 + 400 italic for display. No monospace face.
 - All page copy is exactly spec §7 and lives only in `src/data/profile.ts`. No CV links anywhere. No phone number.
 - Tokens, type sizes and breakpoints exactly as spec §6: labels never below 11px; breakpoints 480 / 860 / 1024; accent chips are ink on tint; dark cards `#17171a`.
 - Light theme is the default for everyone; `prefers-color-scheme` is not consulted. Theme stored in `localStorage` key `theme`, applied before first paint, every storage access wrapped in try/catch.
@@ -35,9 +35,9 @@
 ### Task 1: Astro scaffold, CRA removal, base-path test harness
 
 **Files:**
-- Create: `astro.config.mjs`, `tsconfig.json`, `src/pages/index.astro`, `src/env.d.ts`, `src/lib/url.ts`, `public/.nojekyll`, `tests/helpers.mjs`, `tests/url.test.mjs`, `tests/dist.test.mjs`, `README.md` (replace), `.claude/launch.json` (replace)
+- Create: `astro.config.mjs`, `tsconfig.json`, `src/pages/index.astro`, `src/env.d.ts`, `src/lib/url.ts`, `public/.nojekyll`, `.tool-versions` (`nodejs 24.6.0`), `tests/helpers.mjs`, `tests/url.test.mjs`, `tests/dist.test.mjs`, `README.md` (replace), `.claude/launch.json` (replace)
 - Modify: `package.json` (rewrite), `.gitignore` (add `dist/`, `.astro/`), `public/manifest.json`
-- Delete: `src/App.js`, `src/index.js`, `src/index.css`, `src/reportWebVitals.js`, `src/mantine/`, `src/resume-pdf/`, `src/.DS_Store`, `public/index.html`, `build/`, `yarn.lock`, `package-lock.json` (regenerated), `.DS_Store`
+- Delete: `src/App.js`, `src/index.js`, `src/index.css`, `src/reportWebVitals.js`, `src/mantine/`, `src/resume-pdf/`, `src/assets/logo.svg`, `src/assets/logo-black.svg`, `src/assets/picture.jpeg`, `src/.DS_Store`, `public/index.html`, `build/`, `yarn.lock`, `package-lock.json` (regenerated), `.DS_Store`
 
 **Interfaces:**
 - Produces: `withBase(path: string): string` in `src/lib/url.ts`, built on pure `joinBase(base: string, path: string): string` which returns `base` without trailing slash + `/` + `path` without leading slash (so `joinBase('/me/', 'og.jpg')` → `/me/og.jpg`, `joinBase('/me', '/og.jpg')` → `/me/og.jpg`, `joinBase('/', 'x')` → `/x`).
@@ -85,7 +85,7 @@ Expected: FAIL (`Cannot find module '../src/lib/url.ts'`; `dist/index.html` miss
 
 - [ ] **Step 4: Rewrite `package.json`**
 
-Name `me`, `"private": true`, `"type": "module"`, remove `homepage`, `eslintConfig`, `browserslist`. Dependencies: `astro@^7.4.2`, `sharp@^0.35.5` (image optimisation for `astro:assets`), `@fontsource-variable/inter@^5.3.0`, `@fontsource/instrument-serif@^5.3.0`. DevDependencies: `gh-pages@^6.3.0`. Scripts as in Interfaces. Then delete `yarn.lock`, `package-lock.json`, `node_modules` and run `npm install`.
+Name `me`, `"private": true`, `"type": "module"`, `"engines": { "node": ">=22.23.4" }`, remove `homepage`, `eslintConfig`, `browserslist`. Dependencies: `astro@^7.4.2`, `sharp@^0.35.5` (image optimisation for `astro:assets`), `@fontsource/inter@^5.2.0`, `@fontsource/instrument-serif@^5.3.0`. DevDependencies: `gh-pages@^6.3.0`. Scripts as in Interfaces. Then delete `yarn.lock`, `package-lock.json`, `node_modules` and run `npm install`.
 
 - [ ] **Step 5: Delete CRA files and the old résumé**
 
@@ -141,11 +141,11 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 - Produces, all exported from `src/data/profile.ts` as `const` objects with these shapes (TypeScript interfaces of the same names live in the file):
   - `links: { linkedin: string; github: string; email: string }`
   - `nav: { items: { label: string; href: string }[]; cta: { label: string; href: string } }` (items Work `#work`, Experience `#experience`, About `#about`; cta "Start a conversation" → LinkedIn)
-  - `hero: { headlineLead: string; headlineAccent: string; lede: string; primary: {label; href}; secondary: {label; href}; byline: string; cv?: {label; href} }` (`cv` absent)
-  - `strip: { key: string; value: string; support: string }[]` (3 entries)
+  - `hero: { headlineLead: string; headlineAccent: string; lede: string; primary: {label; href}; secondary: {label; href}; byline: string; cv?: {label; href} }` (`cv` absent; byline "Team Leader at Runtime Revolution · Lisbon, Portugal")
+  - `careerStart: 2018` and `strip(now: Date): { key: string; value: string; support: string }[]` (a function of the build date returning 3 entries: `Track record` / `${now.getFullYear() - careerStart} years` / `Shipping web and mobile since 2018`; `Industries` / `Healthcare · Automotive · Travel` / `From medical records to vehicle production`; `On the side` / `${projects.items.length} live sites` / `Built for real small businesses`)
   - `aiWork: { title: string; intro: string; items: { title: string; line: string }[] }` (4 items)
   - `about: { title: string; body: string; aside: string }`
-  - `basedIn: { title: string; body: string; clockLabel: 'Lisbon time'; timeZone: 'Europe/Lisbon' }`
+  - `basedIn: { title: string; body: string; clockLabel: 'Lisbon time'; timeZone: 'Europe/Lisbon' }` (body "Same time zone as London, all year. Overlaps nicely with most of Europe, mornings with the US east coast.")
   - `experience: { period: string; role: string; org: string; sub?: string; note?: string }[]` (4 entries, the last is the degree with no `note`)
   - `toolbox: { title: string; highlighted: string[]; plain: string[] }`
   - `connect: { linkedinHandle: 'andrenunes-work'; githubHandle: 'anunes9'; copyLabel: 'copy address'; copiedLabel: 'copied' }`
@@ -166,7 +166,7 @@ test('hero copy is the approved copy', () => {
   assert.equal(p.hero.headlineLead, 'From client idea to shipped product,');
   assert.equal(p.hero.headlineAccent, 'with AI in the loop.');
   assert.equal(p.hero.lede, 'I sit between clients and engineers at Runtime Revolution: I help clients decide what to build, help my teams work out how, and still ship code myself.');
-  assert.equal(p.hero.byline, 'Team Leader at Runtime Revolution · Lisbon, UTC+0');
+  assert.equal(p.hero.byline, 'Team Leader at Runtime Revolution · Lisbon, Portugal');
   assert.equal(p.hero.primary.label, 'Start a conversation');
   assert.equal(p.hero.primary.href, p.links.linkedin);
   assert.equal(p.hero.secondary.href, '#work');
@@ -174,7 +174,10 @@ test('hero copy is the approved copy', () => {
 });
 
 test('strip, AI work, projects and experience have the approved counts and values', () => {
-  assert.deepEqual(p.strip.map(s => s.value), ['8 years', 'Healthcare · Automotive · Travel', '4 live sites']);
+  assert.deepEqual(p.strip(new Date('2026-10-25')).map(s => s.value), ['8 years', 'Healthcare · Automotive · Travel', '4 live sites']);
+  assert.equal(p.strip(new Date('2027-01-02'))[0].value, '9 years');
+  assert.equal(p.strip(new Date('2026-10-25'))[0].key, 'Track record');
+  assert.equal(p.basedIn.body, 'Same time zone as London, all year. Overlaps nicely with most of Europe, mornings with the US east coast.');
   assert.equal(p.aiWork.items.length, 4);
   assert.equal(p.aiWork.items[0].title, 'Deal parsing from partner sites');
   assert.deepEqual(p.projects.items.map(i => i.name), ['Fran Padel Project', 'Blue Soul Journeys', 'Quinta do Espinhal', 'TRT Adv']);
@@ -258,11 +261,11 @@ Two `sips` calls from the repo root: `sips -Z 630 src/assets/photo.jpg --out /tm
 
 - [ ] **Step 4: Write `src/styles/global.css`**
 
-Reset (`box-sizing`, margins), tokens, body (`background: var(--bg); color: var(--ink); font-family: 'Inter Variable', system-ui, sans-serif; -webkit-font-smoothing: antialiased`), utilities and component primitives listed in Interfaces. Buttons: pill, `padding: 11px 18px`, 14px/500, hairline border, `--shadow`; `.btn-primary` is ink on bg; hover lifts 1px (`transition: transform .16s ease-out, box-shadow .16s ease-out`). Cards: `background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 22px; box-shadow: var(--shadow)`. Underline offset `.14em` for inline links. Reduce motion: `@media (prefers-reduced-motion: reduce) { * { transition: none !important } }`.
+Reset (`box-sizing`, margins), tokens, body (`background: var(--bg); color: var(--ink); font-family: Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased`), utilities and component primitives listed in Interfaces. Buttons: pill, `padding: 11px 18px`, 14px/500, hairline border, `--shadow`; `.btn-primary` is ink on bg; hover lifts 1px (`transition: transform .16s ease-out, box-shadow .16s ease-out`). Cards: `background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 22px; box-shadow: var(--shadow)`. Underline offset `.14em` for inline links. Reduce motion: `@media (prefers-reduced-motion: reduce) { * { transition: none !important } }`.
 
 - [ ] **Step 5: Write `src/layouts/Base.astro` and `src/components/ThemeToggle.astro`**
 
-Fontsource imports in frontmatter: `@fontsource-variable/inter`, `@fontsource/instrument-serif`, `@fontsource/instrument-serif/400-italic.css`, then `../styles/global.css`.
+Fontsource imports in frontmatter: `@fontsource/inter/400.css`, `@fontsource/inter/500.css`, `@fontsource/inter/600.css`, `@fontsource/instrument-serif`, `@fontsource/instrument-serif/400-italic.css`, then `../styles/global.css`. Head also carries `og:type` `website`, `og:url` (`Astro.site` + base) and `twitter:card` `summary_large_image`. `global.css` ends with the print block: `@media print` forces light tokens, hides `nav, .band, .btn, #theme-toggle, .skip`, removes shadows, collapses the grid to one column, and shows the plain addresses in Connect (see Task 6 for the markup hook).
 
 - [ ] **Step 6: Point `src/pages/index.astro` at the layout**
 
@@ -296,8 +299,9 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: `nav`, `hero`, `strip`, `meta` from `src/data/profile.ts`; `Image` from `astro:assets` with `src/assets/photo.jpg`; `ThemeToggle`.
-- Produces: `Nav.astro` (`<nav aria-label="Primary">`, monogram "AN" linking `#main`, `<ul>` of `nav.items` as `<a>`, `ThemeToggle`, cta button). `Hero.astro` (`<section class="hero">`: `<h1 class="serif">{headlineLead}<br><em>{headlineAccent}</em></h1>`, `<p class="lede">`, buttons, `<p class="byline">`, `<Image src={photo} alt={meta.name} width={600} height={750} />` in a 4:5 frame). `Strip.astro` (`<section class="strip" aria-label="At a glance">` with three `<div>` cells: `<h2 class="label">{key}</h2>`, `<p class="value">`, `<p class="support">`).
-- Layout rules from spec: hero two columns `1.25fr .75fr`, `align-items: start`, gap 40px at ≥860px; `h1 em { white-space: nowrap }` at ≥860px and `h1 br { display: none }` below; `text-wrap: balance`; photo `object-position: 50% 30%`, radius 20px, max width 300px, 120px wide above the headline below 480px. Nav centre links hidden below 480px. Strip: three columns at ≥860px, one column below with hairlines between.
+- Produces: `Nav.astro` (`<nav aria-label="Primary">`, text monogram "AN" (Inter 600, `letter-spacing: .08em`) linking `#main`, `<ul>` of `nav.items` as `<a>`, `ThemeToggle`, cta button). Not sticky. Below 480px the `<ul>` is hidden and the toggle shows its icon only, keeping its `aria-label`. `Hero.astro` (`<section class="hero">`: `<h1 class="serif">{headlineLead}<br><em>{headlineAccent}</em></h1>`, `<p class="lede">`, buttons, `<p class="byline">`, `<Image src={photo} alt={meta.name} width={600} height={750} />` in a 4:5 frame). `Strip.astro` (`<section class="strip" aria-label="At a glance">` with three `<div>` cells: `<h2 class="label">{key}</h2>`, `<p class="value">`, `<p class="support">`).
+- Strip renders `strip(new Date())` from the data module.
+- Layout rules from spec: hero two columns `1.25fr .75fr`, `align-items: start`, gap 40px at ≥860px; `h1 em { white-space: nowrap }` at ≥860px and `h1 br { display: none }` below; `text-wrap: balance`; photo `object-position: 50% 30%`, radius 20px, max width 300px, 120px wide above the headline below 480px. Strip: three columns at ≥860px, one column below with hairlines between; no hover state.
 
 - [ ] **Step 1: Extend the dist test**
 
@@ -309,7 +313,8 @@ test('nav, hero and strip', () => {
   assert.equal(count(html, '>Start a conversation'), 2, 'nav and hero share one verb (Task 7 raises this to 3 with the band)');
   assert.match(html, /<nav aria-label="Primary"/);
   assert.match(html, /<img[^>]+alt="André Nunes"/);
-  assert.match(html, /<h2 class="label">Experience<\/h2>\s*<p class="value">8 years/);
+  assert.match(html, /<h2 class="label">Track record<\/h2>\s*<p class="value">\d+ years/);
+  assert.match(html, /<p class="value">4 live sites/);
 });
 ```
 
@@ -379,7 +384,7 @@ Clock shows Lisbon time (compare with `TZ=Europe/Lisbon date +%H:%M`), not the m
 
 **Interfaces:**
 - Consumes: `experience`, `toolbox`, `connect`, `links`.
-- Produces: `Experience.astro` = `<article id="experience" class="card span-7">`, label, `<ol class="timeline">` of `<li>` with `<p class="period">`, `<p class="role">`, `<p class="org">{org}{sub ? ' · ' + sub : ''}</p>`, optional `<p class="note">`; two columns `110px 1fr` at ≥480px, stacked below. `Toolbox.astro` = `<article class="card span-5">`, label "Toolbox", `<h3>{title}</h3>`, `<ul class="chips">` highlighted first as `<li class="chip chip-hi">`, then plain `<li class="chip">`. `Connect.astro` = `<article class="card span-5">`, label "Connect", `<ul class="links">` with LinkedIn and GitHub external links (handle in a muted `<span>`) and `<CopyEmail />`. `CopyEmail.astro` = `<li><button type="button" class="copy" data-email={links.email}>Email <span class="copy-label">{copyLabel}</span></button><span class="visually-hidden" aria-live="polite" id="copy-status"></span></li>` with a bundled script: on click, `navigator.clipboard.writeText(email)`; on success set label to `copiedLabel`, add class `done`, set live region text "Email address copied", revert after 1800 ms; on rejection or when `navigator.clipboard` is undefined, set the label to the email address itself and leave it.
+- Produces: `Experience.astro` = `<article id="experience" class="card span-7">`, label, `<ol class="timeline">` of `<li>` with `<p class="period">`, `<p class="role">`, `<p class="org">{org}{sub ? ' · ' + sub : ''}</p>`, optional `<p class="note">`; two columns `110px 1fr` at ≥480px, stacked below. `Toolbox.astro` = `<article class="card span-5">`, label "Toolbox", `<h3>{title}</h3>`, `<ul class="chips">` highlighted first as `<li class="chip chip-hi">`, then plain `<li class="chip">`. `Connect.astro` = `<article class="card span-5">`, label "Connect", `<ul class="links">` with LinkedIn and GitHub external links (handle in a muted `<span>`) and `<CopyEmail />`. `CopyEmail.astro` = `<li><button type="button" class="copy" data-email={links.email}>Email <span class="copy-label">{copyLabel}</span></button><span class="print-only">{links.email}</span><span class="visually-hidden" aria-live="polite" id="copy-status"></span></li>`. Each Connect link likewise carries a `<span class="print-only">` with its bare URL (`linkedin.com/in/andrenunes-work`, `github.com/anunes9`); `.print-only` is `display: none` on screen and shown by the print block while `.copy` and the handle spans are hidden. with a bundled script: on click, `navigator.clipboard.writeText(email)`; on success set label to `copiedLabel`, add class `done`, set live region text "Email address copied", revert after 1800 ms; on rejection or when `navigator.clipboard` is undefined, set the label to the email address itself and leave it.
 - Right column order in `index.astro`: `<Experience /><Toolbox /><Connect />` (auto-placement puts Toolbox and Connect beside Experience).
 
 - [ ] **Step 1: Extend the dist test (Review Focus 2)**
@@ -394,6 +399,7 @@ test('experience, toolbox and connect', () => {
   assert.ok(!/Full CV/.test(html));
   assert.match(html, /<button type="button" class="copy" data-email="andrenunes\.work@gmail\.com"/);
   assert.match(html, /aria-live="polite"/);
+  assert.equal(count(html, 'class="print-only"'), 3);
   assert.match(html, /rel="noopener noreferrer"/);
   assert.match(html, /\(opens in new tab\)/);
 });
@@ -483,7 +489,7 @@ test('heading outline is h1 > h2 labels > h3 titles, one main, nav links are anc
 
 - [ ] **Step 3: Browser pass at 375, 768 and 1280, light and dark**
 
-Checklist: no horizontal overflow (`document.documentElement.scrollWidth === window.innerWidth` at 375); every control ≥40px tall on the phone layout; hover states on buttons, strip cells, project cards and connect links; focus ring visible on every link and button when tabbing; dark cards visibly separate from the page; label text never below 11px (`getComputedStyle` on `.label`); the hero photo is 120px wide above the headline below 480px; 768px is not a stretched phone layout.
+Checklist: print preview (Cmd+P in the browser pane, or `@media print` emulation) shows one light column with the three plain addresses and no nav, buttons or band; no horizontal overflow (`document.documentElement.scrollWidth === window.innerWidth` at 375); every control ≥40px tall on the phone layout; hover states on buttons, strip cells, project cards and connect links; focus ring visible on every link and button when tabbing; dark cards visibly separate from the page; label text never below 11px (`getComputedStyle` on `.label`); the hero photo is 120px wide above the headline below 480px; 768px is not a stretched phone layout.
 
 - [ ] **Step 4: Run the design detector once**
 
