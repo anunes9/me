@@ -1,0 +1,26 @@
+---
+---
+<section class="grid"><slot /></section>
+
+<style is:global>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 14px;
+  }
+  .grid > .card {
+    grid-column: span 12;
+    min-width: 0;
+  }
+  @media (min-width: 860px) {
+    .grid > .span-5 {
+      grid-column: span 5;
+    }
+    .grid > .span-7 {
+      grid-column: span 7;
+    }
+    .grid > .span-12 {
+      grid-column: span 12;
+    }
+  }
+</style>

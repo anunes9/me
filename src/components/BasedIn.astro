@@ -1,0 +1,50 @@
+---
+import { basedIn } from '../data/profile';
+---
+
+<article class="card span-5">
+  <h2 class="label">Based in</h2>
+  <h3>{basedIn.title}</h3>
+  <p>{basedIn.body}</p>
+  <p class="clock">
+    <time id="lisbon-time" datetime="" class="serif" data-timezone={basedIn.timeZone}>--:--</time>
+    <span class="clock-label">{basedIn.clockLabel}</span>
+  </p>
+</article>
+
+<style>
+  .clock {
+    margin-top: auto;
+    padding-top: 18px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  time {
+    font-size: 44px;
+    line-height: 1;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .clock-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+</style>
+
+<script>
+  const el = document.getElementById('lisbon-time') as HTMLTimeElement | null;
+  if (el) {
+    const timeZone = el.dataset.timezone || 'Europe/Lisbon';
+    const fmt = new Intl.DateTimeFormat('en-GB', { timeZone, hour: '2-digit', minute: '2-digit' });
+    const tick = () => {
+      const now = new Date();
+      el.textContent = fmt.format(now);
+      el.dateTime = now.toISOString();
+    };
+    tick();
+    setInterval(tick, 15_000);
+  }
+</script>

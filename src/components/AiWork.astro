@@ -1,0 +1,55 @@
+---
+import { aiWork } from '../data/profile';
+---
+
+<article id="work" class="card span-12">
+  <h2 class="label">AI-first work</h2>
+  <h3>{aiWork.title}</h3>
+  <p class="intro">{aiWork.intro}</p>
+  <ul class="ai-grid">
+    {aiWork.items.map((item) => (
+      <li><strong>{item.title}</strong><span>{item.line}</span></li>
+    ))}
+  </ul>
+</article>
+
+<style>
+  .intro {
+    max-width: 60ch;
+  }
+  .ai-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 14px;
+  }
+  li {
+    padding: 16px 16px 18px;
+    border-radius: var(--radius-tile);
+    background: var(--chip);
+    border: 1px solid var(--line);
+    border-top: 2px solid var(--accent);
+  }
+  strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  span {
+    display: block;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  @media (min-width: 600px) {
+    .ai-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .ai-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

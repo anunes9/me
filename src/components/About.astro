@@ -1,0 +1,22 @@
+---
+import { about } from '../data/profile';
+---
+
+<article id="about" class="card span-7">
+  <h2 class="label">About</h2>
+  <h3>{about.title}</h3>
+  <p class="body">{about.body}</p>
+  <p class="aside">{about.aside}</p>
+</article>
+
+<style>
+  .body {
+    font-size: 15px;
+    max-width: 52ch;
+  }
+  .aside {
+    margin-top: auto;
+    padding-top: 18px;
+    font-size: 13px;
+  }
+</style>

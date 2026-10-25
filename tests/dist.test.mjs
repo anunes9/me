@@ -34,3 +34,12 @@ test('nav, hero and strip', () => {
   assert.match(html, /<h2 class="label"[^>]*>Track record<\/h2>\s*<p class="value"[^>]*>\d+ years/);
   assert.match(html, /<p class="value"[^>]*>4 live sites/);
 });
+
+test('AI-first work, about and based in', () => {
+  const html = readDist();
+  assert.match(html, /<article id="work"[^>]*>\s*<h2 class="label"[^>]*>AI-first work<\/h2>\s*<h3[^>]*>Where AI sits in the product, not just the process<\/h3>/);
+  assert.equal((html.match(/<li[^>]*><strong[^>]*>/g) || []).length, 4);
+  assert.match(html, /<time id="lisbon-time"[^>]*>--:--<\/time>/);
+  assert.match(html, /Europe\/Lisbon/);
+  assert.match(html, /Off the clock: padel, music, cars, and long walks with the dog\./);
+});
