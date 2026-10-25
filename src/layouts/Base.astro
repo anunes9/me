@@ -33,7 +33,7 @@ const canonical = new URL(withBase(''), site).href;
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta id="color-scheme" name="color-scheme" content="light" />
-    <meta name="theme-color" content="#f6f5f2" />
+    <meta id="theme-color" name="theme-color" content="#f6f5f2" />
     <link rel="canonical" href={canonical} />
     {preloadFonts.map((href) => <link rel="preload" as="font" type="font/woff2" crossorigin href={href} />)}
     <meta property="og:type" content="website" />
@@ -53,6 +53,8 @@ const canonical = new URL(withBase(''), site).href;
           document.documentElement.dataset.theme = 'dark';
           var m = document.getElementById('color-scheme');
           if (m) m.setAttribute('content', 'dark');
+          var t = document.getElementById('theme-color');
+          if (t) t.setAttribute('content', '#0c0c0d');
         }
       } catch (e) {}
     </script>

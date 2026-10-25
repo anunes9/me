@@ -29,3 +29,19 @@ test('above-the-fold fonts are preloaded and the monogram name contains its visi
   assert.ok(!/class="monogram"[^>]*aria-label=/.test(html), 'monogram must not override its visible text with aria-label');
   assert.match(html, /class="monogram"[^>]*>AN<span class="visually-hidden"[^>]*>/);
 });
+
+test('theme toggle names the theme it switches to and does not claim a pressed state', () => {
+  const html = readDist();
+  const toggle = html.match(/<button[^>]*id="theme-toggle"[^>]*>/)?.[0] ?? '';
+  assert.ok(toggle, 'toggle present');
+  assert.ok(!/aria-pressed/.test(toggle), 'aria-pressed must not combine with a name that changes');
+  assert.match(toggle, /aria-label="Dark theme"/);
+});
+
+test('theme-color meta follows the theme', () => {
+  const html = readDist();
+  assert.match(html, /<meta id="theme-color" name="theme-color" content="#f6f5f2"/);
+  const init = html.match(/<script>([\s\S]*?)<\/script>/)?.[1] ?? '';
+  assert.match(init, /theme-color/, 'init script must update theme-color before first paint');
+  assert.match(init, /#0c0c0d/);
+});

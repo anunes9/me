@@ -1,6 +1,6 @@
 ---
 ---
-<button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="false" aria-label="Dark theme" title="Dark theme">
+<button type="button" id="theme-toggle" class="theme-toggle" aria-label="Dark theme" title="Dark theme">
   <svg class="icon-moon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
     <path d="M13.5 10.2A6 6 0 0 1 5.8 2.5a6 6 0 1 0 7.7 7.7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
   </svg>
@@ -55,12 +55,15 @@
 <script>
   const button = document.getElementById('theme-toggle');
   const meta = document.getElementById('color-scheme');
+  const themeColor = document.getElementById('theme-color');
+  const colors = { light: '#f6f5f2', dark: '#0c0c0d' };
 
   function apply(theme: 'light' | 'dark') {
     document.documentElement.dataset.theme = theme;
     meta?.setAttribute('content', theme);
+    themeColor?.setAttribute('content', colors[theme]);
     const dark = theme === 'dark';
-    button?.setAttribute('aria-pressed', String(dark));
+    // The name says what the button switches to; no aria-pressed, since the name changes.
     button?.setAttribute('aria-label', dark ? 'Light theme' : 'Dark theme');
     button?.setAttribute('title', dark ? 'Light theme' : 'Dark theme');
     const text = button?.querySelector('.theme-toggle-text');
