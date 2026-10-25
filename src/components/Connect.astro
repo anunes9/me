@@ -23,11 +23,8 @@ import CopyEmail from './CopyEmail.astro';
     flex-direction: column;
     margin-top: 2px;
   }
-  .links > li {
+  .links > li:not(:last-child) a {
     border-bottom: 1px solid var(--line);
-  }
-  .links > li:last-child {
-    border-bottom: 0;
   }
   .links a {
     display: flex;
