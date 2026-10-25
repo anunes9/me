@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sketch · André Nunes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6f5f2; --card:#ffffff; --line:rgba(20,20,20,.08); --ink:#15140f; --muted:#6b6a64;
+    --accent:#1f8a70; --accent-soft:rgba(31,138,112,.10); --chip:#f1f0ec; --shadow:0 1px 2px rgba(0,0,0,.04),0 12px 32px -16px rgba(0,0,0,.12);
+  }
+  [data-theme="dark"]{
+    --bg:#0c0c0d; --card:#141416; --line:rgba(255,255,255,.08); --ink:#f3f2ee; --muted:#9a9890;
+    --accent:#5ad1ae; --accent-soft:rgba(90,209,174,.12); --chip:#1d1d20; --shadow:0 1px 0 rgba(255,255,255,.03) inset,0 20px 40px -24px rgba(0,0,0,.8);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .serif{font-family:"Instrument Serif",Georgia,serif;font-weight:400;letter-spacing:-.01em}
+  .mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px 80px}
+
+  /* sketch banner */
+  .sketch{position:sticky;top:0;z-index:9;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 24px;font-size:12px;color:var(--muted);background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .sketch b{color:var(--ink);font-weight:600}
+  .sketch button{font:inherit;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+
+  /* nav */
+  nav{display:flex;justify-content:space-between;align-items:center;padding:28px 0 40px}
+  .logo{font-weight:600;letter-spacing:.08em;font-size:13px}
+  nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:4px;border:1px solid var(--line);border-radius:999px;background:var(--card)}
+  nav li{font-size:13px;padding:6px 12px;border-radius:999px;color:var(--muted)}
+  nav li.on{background:var(--chip);color:var(--ink)}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:start;padding:8px 0 44px}
+      h1{font-size:clamp(44px,6.2vw,76px);line-height:.98;margin:0 0 22px;text-wrap:balance}
+  @media (min-width:860px){h1 em{white-space:nowrap}}
+  h1 em{font-style:italic;color:var(--accent)}
+  .lede{font-size:17px;line-height:1.55;color:var(--muted);max-width:560px;margin:0 0 26px}
+  .ctas{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;font-size:14px;font-weight:500;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow)}
+  .btn.primary{background:var(--ink);color:var(--bg);border-color:transparent}
+  .hero-photo{position:relative;justify-self:end;width:min(100%,300px);aspect-ratio:4/5;}
+  .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;border-radius:20px;box-shadow:var(--shadow)}
+  .byline{margin-top:22px;font-size:13px;color:var(--muted)}
+  .btn:hover{transform:translateY(-1px)}
+  .btn.primary:hover{opacity:.9}
+
+  /* quick strip */
+  .strip{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--card);margin-bottom:28px}
+  .strip>div{padding:18px 20px;border-right:1px solid var(--line)}
+  .strip>div:last-child{border-right:0}
+  .strip .k{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px;margin-bottom:8px}
+  .strip .k i{width:6px;height:6px;border-radius:2px;background:var(--accent);display:inline-block}
+  .strip .v{font-size:15px;font-weight:500}
+  .strip .s{font-size:12px;color:var(--muted);margin-top:2px}
+
+  /* bento */
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(96px,auto);gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow);position:relative;overflow:hidden;display:flex;flex-direction:column}
+  .card .k{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+  .card h3{margin:0 0 8px;font-size:18px;font-weight:500;letter-spacing:-.01em}
+  .card p{margin:0;font-size:14px;line-height:1.55;color:var(--muted)}
+  .ai{grid-column:span 12}
+  .aigrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+  .aigrid>div{padding:16px 16px 18px;border-radius:14px;background:var(--chip);border:1px solid var(--line);border-top:2px solid var(--accent)}
+  .aigrid b{display:block;font-size:15px;font-weight:500;margin-bottom:6px}
+  .aigrid span{display:block;font-size:13px;line-height:1.5;color:var(--muted)}
+  .about{grid-column:span 7;grid-row:span 2}
+  .about p{font-size:15px;max-width:52ch}
+  .about .aside{margin-top:auto;padding-top:18px;font-size:13px}
+  .loc{grid-column:span 5;grid-row:span 2;justify-content:space-between}
+  .clock{font-size:44px;line-height:1;margin:14px 0 6px}
+  .stack{grid-column:span 5}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+  .chip{font-size:12px;padding:6px 10px;border-radius:8px;background:var(--chip);border:1px solid var(--line)}
+  .chip.hi{background:var(--accent-soft);border-color:transparent;color:var(--accent)}
+  .exp{grid-column:span 7;grid-row:span 2}
+  .more{margin-top:auto;padding-top:16px;font-size:13px;font-weight:500;color:var(--accent)}
+    .tl{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column}
+  .tl li{display:grid;grid-template-columns:110px 1fr;gap:14px;padding:12px 0;border-top:1px solid var(--line)}
+  .tl li:first-child{border-top:0;padding-top:4px}
+  .tl .d{font-size:12px;color:var(--muted);padding-top:3px}
+  .tl .r{font-size:14px;font-weight:500}
+  .tl .c{font-size:13px;color:var(--muted)}
+  .tl .n{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.5}
+  .proj{grid-column:span 12}
+            .pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:10px}
+  .pcard{display:block;border-radius:14px;overflow:hidden;background:var(--chip);border:1px solid var(--line);transition:transform .2s}
+  .pcard:hover{transform:translateY(-2px)}
+  .pcard img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-bottom:1px solid var(--line)}
+  .pcard b{display:block;font-size:13px;font-weight:500;padding:10px 12px 0}
+  .pcard span{display:block;font-size:11px;color:var(--muted);padding:2px 12px 10px}
+                .connect{grid-column:span 5}
+  .links{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+  .links a{display:flex;justify-content:space-between;font-size:14px;padding:9px 0;border-bottom:1px solid var(--line)}
+  .links a:last-child{border-bottom:0}
+  .links .copy{all:unset;cursor:pointer;display:flex;justify-content:space-between;font-size:14px;padding:9px 0;color:inherit}
+  .links .copy span{color:var(--muted);font-size:12px}
+  .links .copy.done span{color:var(--accent)}
+  .links a span{color:var(--muted);font-size:12px}
+  .cta{grid-column:span 12;background:var(--ink);color:var(--bg);border:0;flex-direction:row;align-items:center;justify-content:space-between;gap:24px;padding:34px 36px}
+  .cta h3{font-size:34px;color:inherit;margin:0}
+  .cta p{color:inherit;opacity:.7}
+  .cta .btn{background:var(--bg);color:var(--ink);border:0;white-space:nowrap;flex:none}
+  footer{display:flex;justify-content:space-between;padding:28px 4px 0;font-size:12px;color:var(--muted)}
+
+  /* decoration */
+        linear-gradient(var(--line) 1px,transparent 1px) 0 0/20px 20px,
+    linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/20px 20px,var(--chip);border:1px solid var(--line)}
+  
+  @media (max-width:860px){
+    h1 br{display:none}
+    .hero{grid-template-columns:1fr}
+    .hero-photo{justify-self:start;width:200px}
+    .strip{grid-template-columns:1fr}
+    .strip>div{border-right:0;border-bottom:1px solid var(--line)}
+    .strip>div:last-child{border-bottom:0}
+    .grid>.card{grid-column:span 12 !important}
+    .pgrid{grid-template-columns:1fr 1fr}
+    .aigrid{grid-template-columns:1fr}
+    .cta{flex-direction:column;align-items:flex-start}
+  }
+</style>
+</head>
+<body>
+
+<div class="sketch">
+  <div><b>Sketch, not final.</b> Bento layout with your current content. Toggle the mood: light is closer to Braydon, dark closer to Aayush.</div>
+  <div style="display:flex;gap:8px">
+    <button data-choice="light" onclick="setTheme('light');toggleSelect&&toggleSelect(this)">Light</button>
+    <button data-choice="dark" onclick="setTheme('dark');toggleSelect&&toggleSelect(this)">Dark</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <nav>
+    <div class="logo">AN</div>
+    <ul><li class="on">Home</li><li>Work</li><li>About</li><li>CV</li></ul>
+    <a class="btn" href="https://www.linkedin.com/in/andrenunes-work/" style="padding:8px 14px;font-size:13px">Start a conversation</a>
+  </nav>
+
+  <section class="hero">
+    <div>
+      <h1 class="serif">From client idea to shipped product, <br><em>with AI in the loop.</em></h1>
+      <p class="lede">I sit between clients and engineers at Runtime Revolution: I help clients decide what to build, help my teams work out how, and still ship code myself.</p>
+      <div class="ctas">
+        <a class="btn primary" href="https://www.linkedin.com/in/andrenunes-work/">Start a conversation →</a>
+        <a class="btn" href="#">Download CV</a>
+      </div>
+      <p class="byline">Team Leader at Runtime Revolution · Lisbon, UTC+0</p>
+    </div>
+    <div class="hero-photo">
+      <img src="photo.jpg" alt="André Nunes">
+    </div>
+  </section>
+
+  <div class="strip">
+    <div><div class="k">Experience</div><div class="v">8 years</div><div class="s">Shipping web and mobile since 2018</div></div>
+    <div><div class="k">Industries</div><div class="v">Healthcare · Automotive · Travel</div><div class="s">From medical records to vehicle production</div></div>
+    <div><div class="k">On the side</div><div class="v">4 live sites</div><div class="s">Built for real small businesses</div></div>
+  </div>
+
+  <section class="grid">
+
+    <div class="card ai">
+      <div class="k">AI-first work</div>
+      <h3>Where AI sits in the product, not just the process</h3>
+      <p style="max-width:60ch">Four things shipped with clients recently. Names left out, the work speaks.</p>
+      <div class="aigrid">
+        <div><b>Deal parsing from partner sites</b><span>Parses partner websites for live deals so users get a better offer than the one on the page.</span></div>
+        <div><b>Interactive prompts in travel articles</b><span>Interactive prompts inside travel articles that engage readers and turn them into travel leads.</span></div>
+        <div><b>Image scan to marketplace listing</b><span>Scans an image for items and publishes them straight into a marketplace.</span></div>
+        <div><b>Negotiation agent for the marketplace</b><span>Negotiates marketplace items on the user's behalf.</span></div>
+      </div>
+    </div>
+
+    <div class="card about">
+      <div class="k">About</div>
+      <h3>Hi, I'm André. A developer from Lisbon who likes to know how things are made and why.</h3>
+      <p>I started mobile, learned the backend because the project needed it, and grew into leading teams. These days I sit between clients and engineers, and I like it there: close enough to the idea to shape it, close enough to the code to ship it. AI tooling is in hand from the first sketch, on every project.</p>
+      <p class="aside">Off the clock: padel, music, cars, and long walks with the dog.</p>
+    </div>
+
+    <div class="card loc">
+      <div class="k">Based in</div>
+      <h3>Oeiras, Lisbon</h3>
+      <p>WET / UTC+0. Overlaps nicely with London and most of Europe, mornings with the US east coast.</p>
+      <div class="clock serif" id="clock">14:32</div>
+      <p class="mono" style="font-size:11px">local time</p>
+    </div>
+
+    <div class="card exp">
+      <div class="k">Experience</div>
+      <ul class="tl">
+        <li><div class="d">2023 → now</div><div><div class="r">Team Leader, AI-first projects</div><div class="c">Runtime Revolution · Full Stack Developer until 2025</div><div class="n">Back for a second stint: first rebuilding the core of a travel and promotions product, now leading teams on client projects built with AI tooling from day one.</div></div></li>
+        <li><div class="d">2022 → 2023</div><div><div class="r">Full Stack Developer</div><div class="c">Volkswagen Digital Solutions</div><div class="n">XP, pairing and TDD every day. Vehicle production tracking, contract generation and e-signing, and an electric-vehicle proof of concept from inception to build.</div></div></li>
+        <li><div class="d">2018 → 2022</div><div><div class="r">Full Stack & Mobile Developer</div><div class="c">Runtime Revolution</div><div class="n">Built a healthcare records app from scratch in React Native, then its web app and Rails API. Later lead developer and team manager on a sports app.</div></div></li>
+      </ul>
+      <a class="more" href="#">Full CV →</a>
+    </div>
+
+    <div class="card stack">
+      <div class="k">Toolbox</div>
+      <h3>What I reach for</h3>
+      <div class="chips">
+        <span class="chip hi">TypeScript</span><span class="chip hi">React</span><span class="chip hi">React Native</span><span class="chip hi">Ruby on Rails</span>
+        <span class="chip">Node.js</span><span class="chip">PostgreSQL</span><span class="chip">AWS</span><span class="chip">Lambda</span><span class="chip">Redis</span><span class="chip">Kafka</span><span class="chip">ElasticSearch</span><span class="chip">TDD</span><span class="chip">Pair programming</span><span class="chip hi">Claude Code</span><span class="chip">AI-first delivery</span><span class="chip">Team leadership</span>
+      </div>
+    </div>
+
+    <div class="card connect">
+      <div class="k">Connect</div>
+      <div class="links">
+        <a href="https://www.linkedin.com/in/andrenunes-work/">LinkedIn <span>andrenunes-work</span></a>
+        <a href="https://github.com/anunes9">GitHub <span>anunes9</span></a>
+        <button class="copy" type="button" onclick="copyEmail(this)">Email <span data-label>copy address</span></button>
+      </div>
+    </div>
+
+    <div class="card proj">
+      <div class="k">Side projects</div>
+      <h3>Four live sites, built on the side</h3>
+      <p style="max-width:60ch">A padel academy, a dive travel company, a country guesthouse and a trail-bike community. Each one started as an idea someone brought me.</p>
+      <div class="pgrid">
+        <a class="pcard" href="https://www.franpadelproject.com/" target="_blank"><img src="shot-fran.jpg" alt=""><b>Fran Padel Project</b><span>Padel academy · clinics & bookings</span></a>
+        <a class="pcard" href="https://www.bluesouljourneys.com/en" target="_blank"><img src="shot-bluesoul.jpg" alt=""><b>Blue Soul Journeys</b><span>Dive travel · multilingual, destinations & inquiries</span></a>
+        <a class="pcard" href="https://www.espinhal-artesanal.com/" target="_blank"><img src="shot-espinhal.jpg" alt=""><b>Quinta do Espinhal</b><span>Guesthouse · gallery & reservations</span></a>
+        <a class="pcard" href="https://www.trtadv.com/" target="_blank"><img src="shot-trt.png" alt=""><b>TRT Adv</b><span>Trail bike community · rides & kit</span></a>
+      </div>
+    </div>
+
+    
+    
+    <div class="card cta">
+      <div><h3 class="serif">Have a product that needs <em style="opacity:.75">building</em>?</h3><p>Happy to talk about leading teams, AI-first delivery, or an idea you want sketched out. The quickest way to reach me is a LinkedIn message.</p></div>
+      <a class="btn" href="https://www.linkedin.com/in/andrenunes-work/">Start a conversation →</a>
+    </div>
+
+  </section>
+
+  <footer><span>© 2026 André Nunes</span><span>Built with care in Lisbon</span></footer>
+</div>
+
+<script>
+  function setTheme(t){document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('sketch-theme',t)}catch(e){}}
+  try{var s=localStorage.getItem('sketch-theme');if(s)setTheme(s)}catch(e){}
+  function tick(){var d=new Date();var h=String(d.getHours()).padStart(2,'0'),m=String(d.getMinutes()).padStart(2,'0');document.getElementById('clock').textContent=h+':'+m}
+  tick();setInterval(tick,15000);
+  function copyEmail(btn){var label=btn.querySelector('[data-label]');navigator.clipboard.writeText('andrenunes.work@gmail.com').then(function(){btn.classList.add('done');label.textContent='copied';setTimeout(function(){btn.classList.remove('done');label.textContent='copy address'},1800)},function(){label.textContent='andrenunes.work@gmail.com'})}
+</script>
+</body>
+</html>
