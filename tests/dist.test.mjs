@@ -28,7 +28,7 @@ test('nav, hero and strip', () => {
   const html = readDist();
   assert.equal(count(html, '<h1'), 1);
   assert.match(html, /<h1[^>]*>From client idea to shipped product, <br[^>]*><em[^>]*>with AI in the loop\.<\/em><\/h1>/);
-  assert.equal(count(html, '>Start a conversation'), 2, 'nav and hero share one verb (Task 7 raises this to 3 with the band)');
+  assert.equal(count(html, '>Start a conversation'), 3, 'nav, hero and band share one verb');
   assert.match(html, /<nav aria-label="Primary"/);
   assert.match(html, /<img[^>]+alt="André Nunes"/);
   assert.match(html, /<h2 class="label"[^>]*>Track record<\/h2>\s*<p class="value"[^>]*>\d+ years/);
@@ -56,4 +56,15 @@ test('experience, toolbox and connect', () => {
   assert.match(html, /rel="noopener noreferrer"/);
   assert.match(html, /\(opens in new tab\)/);
   assert.equal((html.match(/class="print-only"/g) || []).length, 3);
+});
+
+test('projects, band and footer', () => {
+  const html = readDist();
+  assert.equal((html.match(/class="pgrid"/g) || []).length, 1);
+  assert.equal(count(html, 'https://www.franpadelproject.com/'), 1);
+  assert.equal(count(html, 'target="_blank"'), 9, 'three CTAs + LinkedIn + GitHub in Connect + four projects');
+  assert.equal(count(html, '(opens in new tab)'), 9);
+  assert.match(html, /<h2 id="band-title" class="serif"[^>]*>Have a product that needs <em[^>]*>building<\/em>\?<\/h2>/);
+  assert.match(html, new RegExp(`© ${new Date().getFullYear()} André Nunes`));
+  assert.equal(count(html, '>Start a conversation'), 3);
 });

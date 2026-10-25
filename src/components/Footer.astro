@@ -1,0 +1,22 @@
+---
+import { meta } from '../data/profile';
+const year = new Date().getFullYear();
+---
+
+<footer class="wrap">
+  <span>© {year} {meta.name}</span>
+  <span>{meta.footerRight}</span>
+</footer>
+
+<style>
+  footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-top: 28px;
+    padding-bottom: 40px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+</style>

@@ -1,0 +1,84 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { projects, type ProjectImage } from '../data/profile';
+import ExternalLink from './ExternalLink.astro';
+import fran from '../assets/projects/shot-fran.jpg';
+import bluesoul from '../assets/projects/shot-bluesoul.jpg';
+import espinhal from '../assets/projects/shot-espinhal.jpg';
+import trt from '../assets/projects/shot-trt.png';
+
+const images: Record<ProjectImage, ImageMetadata> = { fran, bluesoul, espinhal, trt };
+---
+
+<article id="projects" class="card span-12">
+  <h2 class="label">Side projects</h2>
+  <h3>{projects.title}</h3>
+  <p class="intro">{projects.intro}</p>
+  <ul class="pgrid">
+    {projects.items.map((item) => (
+      <li>
+        <ExternalLink href={item.url} class="pcard">
+          <Image src={images[item.image]} alt="" width={800} height={500} widths={[400, 800]} sizes="(min-width: 1024px) 260px, (min-width: 480px) 45vw, 90vw" />
+          <strong>{item.name}</strong>
+          <span>{item.line}</span>
+        </ExternalLink>
+      </li>
+    ))}
+  </ul>
+</article>
+
+<style>
+  .intro {
+    max-width: 60ch;
+  }
+  .pgrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .pcard {
+    display: block;
+    height: 100%;
+    border-radius: var(--radius-tile);
+    overflow: hidden;
+    background: var(--chip);
+    border: 1px solid var(--line);
+    transition: transform 0.16s var(--ease), box-shadow 0.16s var(--ease);
+  }
+  .pcard:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .pcard img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top;
+    border-bottom: 1px solid var(--line);
+  }
+  strong {
+    display: block;
+    padding: 10px 12px 0;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  span:not(.visually-hidden) {
+    display: block;
+    padding: 2px 12px 12px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  @media (min-width: 480px) {
+    .pgrid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .pgrid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

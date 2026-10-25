@@ -10,6 +10,9 @@ import BasedIn from '../components/BasedIn.astro';
 import Experience from '../components/Experience.astro';
 import Toolbox from '../components/Toolbox.astro';
 import Connect from '../components/Connect.astro';
+import Projects from '../components/Projects.astro';
+import Band from '../components/Band.astro';
+import Footer from '../components/Footer.astro';
 import { meta } from '../data/profile';
 ---
 
@@ -25,6 +28,9 @@ import { meta } from '../data/profile';
       <Experience />
       <Toolbox />
       <Connect />
+      <Projects />
     </Grid>
+    <Band />
   </div>
+  <Footer slot="footer" />
 </Base>
